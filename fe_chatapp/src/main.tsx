@@ -14,3 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </ApolloProvider>
   </React.StrictMode>,
 )
+
+
+//1:51:11 todo tmr see the react router dom in depth and finish 

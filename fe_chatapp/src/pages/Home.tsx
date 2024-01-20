@@ -1,18 +1,17 @@
-import React from 'react'
-import MainLayout from '../Layout/Mainlayout'
-import Sidebar from '../components/Sidebar'
+import React from "react";
+import MainLayout from "../Layout/Mainlayout";
+import Sidebar from "../components/Sidebar";
+import { ProtectedRoutes } from "../components/ProtectedRoutes";
 
 function Home() {
   return (
-    
     <MainLayout>
-        <>
-        <Sidebar/>
+      <ProtectedRoutes>
+        <Sidebar />
         Home page
-        </>
-        </MainLayout>
- 
-  )
+      </ProtectedRoutes>
+    </MainLayout>
+  );
 }
 
-export default Home
+export default Home;
