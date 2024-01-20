@@ -9,6 +9,19 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import { join } from 'path';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
+import { TokenService } from './token/token.service';
+import { error } from 'console';
+
+const pubSub = new RedisPubSub({
+  connection: {
+    host: process.env.REDIS_HOST || 'localhost',
+    port: parseInt(process.env.REDIS_PORT || '6379', 10),
+    retryStrategy: (times) => {
+      return Math.min(times * 50, 2000);
+    },
+  },
+});
 
 @Module({
   imports: [
@@ -19,10 +32,30 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       imports: [ConfigModule, AppModule],
       inject: [ConfigService],
       driver: ApolloDriver,
-      useFactory: async (ConfigService: ConfigService) => {
+      useFactory: async (
+        ConfigService: ConfigService,
+        tokenService: TokenService,
+      ) => {
         return {
+          installSubscriptionHandlers: true,
           autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
           sortSchema: true,
+          subscriptions: {
+            'graphql-ws': true,
+            'subscriptions-transport-ws': true,
+          },
+          onConnect: (connectionParams) => {
+            const token = tokenService.extractToken(connectionParams);
+
+            if (!token) {
+              throw new Error('Token not valid');
+            }
+            const user = tokenService.validateToken(token);
+            if (!user) {
+              throw new Error('invalid token');
+            }
+            return { user };
+          },
         };
       },
     }),
