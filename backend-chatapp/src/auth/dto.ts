@@ -14,8 +14,8 @@ export class RegisterDto {
   email: string;
 
   @Field()
-  @IsNotEmpty({ message: 'fullname is required' })
-  @MinLength(8, { message: 'fullname must be a string' })
+  @IsNotEmpty({ message: 'Password is required' })
+  @MinLength(8, { message: 'PAssword need to be at least 8 chqr' })
   password: string;
 
   @Field()

@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: 'https://localhost:5173',
+    origin: 'http://localhost:5173',
     credentials: true, 
     allowedHeaders: [
       'Accept',
@@ -31,6 +31,8 @@ async function bootstrap() {
           );
           return accumulator;
         }, {});
+        console.log(formattedErrors);
+        console.log("dnc")
         throw new BadRequestException(formattedErrors);
       },
     }),

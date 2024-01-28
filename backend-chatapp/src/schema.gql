@@ -17,7 +17,7 @@ type LoginResponse {
 }
 
 type Mutation {
-  login(loginDto: LoginDto!): LoginResponse!
+  login(loginInput: LoginDto!): LoginResponse!
   logout: String!
   refreshtoken: String!
   register(registerInput: RegisterDto!): RegisterResponse!

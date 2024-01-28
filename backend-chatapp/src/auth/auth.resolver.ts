@@ -1,10 +1,12 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { LoginResponse, RegisterResponse } from './types';
-import { LoginDto, RegisterDto } from './Auth.dto';
-import { BadRequestException } from '@nestjs/common';
+import { LoginDto, RegisterDto } from './dto';
+import { BadRequestException, UseFilters } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { GraphQLErrorFilter } from '../filter/custom-exception.filter';
 
+@UseFilters(GraphQLErrorFilter)
 @Resolver()
 export class AuthResolver {
   constructor(private authService: AuthService) {}
@@ -14,6 +16,7 @@ export class AuthResolver {
     @Args('registerInput') registerDto: RegisterDto,
     @Context() context: { res: Response },
   ) {
+ 
     if (registerDto.confirmPassword !== registerDto.confirmPassword) {
       throw new BadRequestException({
         confirmPassword: 'Password and confirm Password are not the same',
@@ -26,7 +29,7 @@ export class AuthResolver {
 
   @Mutation(() => LoginResponse)
   async login(
-    @Args('loginDto') loginDto: LoginDto,
+    @Args('loginInput') loginDto: LoginDto,
     @Context() context: { res: Response },
   ) {
     return this.authService.login(loginDto, context.res);
@@ -39,11 +42,11 @@ export class AuthResolver {
 
   @Mutation(() => String)
   async refreshtoken(@Context() context: { req: Request; res: Response }) {
-  try {
-    return this.authService.refreshToken(context.req, context.res);
-  } catch (error) {
-    throw new BadRequestException(error.message);
-  }
+    try {
+      return this.authService.refreshToken(context.req, context.res);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 
   @Query(() => String)

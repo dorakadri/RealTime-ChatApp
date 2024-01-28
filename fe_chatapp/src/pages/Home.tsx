@@ -1,15 +1,18 @@
 import React from "react";
 import MainLayout from "../Layout/Mainlayout";
 import Sidebar from "../components/Sidebar";
+
 import { ProtectedRoutes } from "../components/ProtectedRoutes";
+import AuthOverlay from "../components/AuthOverlay";
 
 function Home() {
   return (
     <MainLayout>
-      <ProtectedRoutes>
+    <>  
+    <AuthOverlay/>
         <Sidebar />
-        Home page
-      </ProtectedRoutes>
+        Home Page
+        </>
     </MainLayout>
   );
 }

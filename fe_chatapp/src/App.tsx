@@ -41,9 +41,7 @@ function App() {
 function App() {
   return (
     <>
-      <Card shadow="lg" padding="lg" radius="md" withBorder>
-        <Text fw={500}>Norway Fjord Adventures</Text>
-      </Card>
+  
     </>
   );
 }
