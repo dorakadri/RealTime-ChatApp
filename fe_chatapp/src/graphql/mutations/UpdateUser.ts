@@ -1,18 +1,15 @@
-import {gql} from "@apollo/client" 
+import { gql } from "@apollo/client";
 
-export const UPDATE_PROFILE=gql`
+export const UPDATE_PROFILE = gql`
 mutation UpdateProfile(
 $fullname: String!
 $file:Upload
 
 ){
-    updateProfile(fullname:$fullname,file:$file}){
+    updateProfile(fullname:$fullname,file:$file){
         id
         fullname
         avatarUrl
     }
 }
-
 `
-
-//1:12:45

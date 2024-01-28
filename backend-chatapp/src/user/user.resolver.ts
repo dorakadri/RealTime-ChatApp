@@ -36,7 +36,7 @@ export class UserResolver {
   private async storeImageAndGetUrl(file: GraphQLUpload) {
     const { createReadStream, filename } = await file;
     const unisuqeFilename = `${uuidv4()}_${filename}`;
-    const imagePath = join(process.cwd(), 'public', unisuqeFilename);
+    const imagePath = join(process.cwd(), 'public','images', unisuqeFilename);
     const imageUrl = `${process.env.APP_URL}/${unisuqeFilename}`;
     const readStream = createReadStream();
     readStream.pipe(createWriteStream(imagePath));

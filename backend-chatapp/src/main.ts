@@ -32,7 +32,7 @@ async function bootstrap() {
           return accumulator;
         }, {});
         console.log(formattedErrors);
-        console.log("dnc")
+
         throw new BadRequestException(formattedErrors);
       },
     }),
